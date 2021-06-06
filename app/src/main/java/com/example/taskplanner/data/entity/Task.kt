@@ -3,6 +3,7 @@ package com.example.taskplanner.data.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.taskplanner.network.dto.TaskDto
+import java.util.*
 
 @Entity
 data class Task(
@@ -10,7 +11,7 @@ data class Task(
     val id: Int,
     val description: String,
     val personResponsible:String,
-    val dueDate: String,
+    val dueDate: Date,
     val status: String,
     val userId: String
 ) {
