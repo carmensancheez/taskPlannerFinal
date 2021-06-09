@@ -6,8 +6,7 @@ import retrofit2.http.GET
 
 interface TaskService {
 
-    @GET("tasks")
+    @GET("task")
     suspend fun getTasksList(): Response<List<TaskDto>>
-
 
 }

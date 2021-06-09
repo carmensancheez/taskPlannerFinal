@@ -1,6 +1,8 @@
-package com.example.taskplanner
+package com.example.taskplanner.ui.main
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,9 +11,12 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.example.taskplanner.R
 import com.example.taskplanner.databinding.ActivityMainBinding
+import com.example.taskplanner.network.service.AuthService
 import com.example.taskplanner.network.service.TaskService
 import com.example.taskplanner.network.service.UserService
+import com.example.taskplanner.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var userService: UserService
+
+    @Inject
+    lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

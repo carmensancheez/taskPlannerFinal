@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.taskplanner.data.TaskAppDatabase
 import com.example.taskplanner.data.dao.TaskDao
 import com.example.taskplanner.data.dao.UserDao
+import com.example.taskplanner.storage.LocalStorage
+import com.example.taskplanner.storage.Storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +34,11 @@ object DataModule {
     @Singleton
     fun provideUserDao(appDatabase: TaskAppDatabase): UserDao {
         return appDatabase.UserDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStorage(@ApplicationContext context: Context): Storage {
+        return LocalStorage(context)
     }
 }

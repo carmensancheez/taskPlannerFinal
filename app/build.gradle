@@ -36,7 +36,7 @@ android {
         // buildstage to match my heroku pipeline App  => https://task-planner-ps.herokuapp.com/
         staging {
             initWith debug
-            buildConfigField "String", "API_BASE_URL", "\"https://task-planner-ps.herokuapp.com/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://task-planner-production-page.herokuapp.com/v1/\""
         }
     }
     compileOptions {
