@@ -1,8 +1,8 @@
-package com.example.taskplanner.data.entity
+package com.example.taskplanner.repository.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.taskplanner.network.dto.TaskDto
+import com.example.taskplanner.repository.remote.dto.TaskDto
 import java.util.*
 
 @Entity

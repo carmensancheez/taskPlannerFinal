@@ -1,11 +1,11 @@
-package com.example.taskplanner.data.dao
+package com.example.taskplanner.repository.model.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.taskplanner.data.entity.Task
+import com.example.taskplanner.repository.model.entity.Task
 
 @Dao
 interface TaskDao {

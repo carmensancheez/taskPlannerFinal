@@ -1,6 +1,5 @@
 package com.example.taskplanner.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
@@ -13,12 +12,9 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.ActivityMainBinding
-import com.example.taskplanner.network.dto.LoginDto
-import com.example.taskplanner.network.dto.UserDto
-import com.example.taskplanner.network.service.AuthService
-import com.example.taskplanner.network.service.TaskService
-import com.example.taskplanner.network.service.UserService
-import com.example.taskplanner.storage.Storage
+import com.example.taskplanner.repository.remote.auth.AuthService
+import com.example.taskplanner.repository.remote.task.TaskService
+import com.example.taskplanner.repository.remote.user.UserService
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

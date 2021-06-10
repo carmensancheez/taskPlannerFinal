@@ -1,7 +1,6 @@
-package com.example.taskplanner.network.service
+package com.example.taskplanner.repository.remote.task
 
-import com.example.taskplanner.network.dto.TaskDto
-import com.example.taskplanner.network.dto.UserDto
+import com.example.taskplanner.repository.remote.dto.TaskDto
 import retrofit2.Response
 import retrofit2.http.*
 

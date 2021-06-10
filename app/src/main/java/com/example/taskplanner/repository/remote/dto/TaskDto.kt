@@ -1,4 +1,4 @@
-package com.example.taskplanner.network.dto
+package com.example.taskplanner.repository.remote.dto
 
 import java.util.*
 

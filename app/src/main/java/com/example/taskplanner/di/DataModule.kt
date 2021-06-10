@@ -2,9 +2,9 @@ package com.example.taskplanner.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.taskplanner.data.TaskAppDatabase
-import com.example.taskplanner.data.dao.TaskDao
-import com.example.taskplanner.data.dao.UserDao
+import com.example.taskplanner.repository.model.TaskAppDatabase
+import com.example.taskplanner.repository.model.dao.TaskDao
+import com.example.taskplanner.repository.model.dao.UserDao
 import com.example.taskplanner.storage.LocalStorage
 import com.example.taskplanner.storage.Storage
 import dagger.Module

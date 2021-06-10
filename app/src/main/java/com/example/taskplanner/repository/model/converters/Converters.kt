@@ -1,4 +1,4 @@
-package com.example.taskplanner.data
+package com.example.taskplanner.repository.model.converters
 
 import androidx.room.TypeConverter
 import java.util.*

@@ -2,9 +2,9 @@ package com.example.taskplanner.di
 
 import com.example.taskplanner.BuildConfig
 import com.example.taskplanner.network.AuthInterceptor
-import com.example.taskplanner.network.service.AuthService
-import com.example.taskplanner.network.service.TaskService
-import com.example.taskplanner.network.service.UserService
+import com.example.taskplanner.repository.remote.auth.AuthService
+import com.example.taskplanner.repository.remote.task.TaskService
+import com.example.taskplanner.repository.remote.user.UserService
 import com.example.taskplanner.storage.Storage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
