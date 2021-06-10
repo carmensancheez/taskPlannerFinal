@@ -13,11 +13,16 @@ import android.view.Menu
 import android.view.MenuItem
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.ActivityMainBinding
+import com.example.taskplanner.network.dto.LoginDto
+import com.example.taskplanner.network.dto.UserDto
 import com.example.taskplanner.network.service.AuthService
 import com.example.taskplanner.network.service.TaskService
 import com.example.taskplanner.network.service.UserService
 import com.example.taskplanner.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -37,6 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        findUserByEmail()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -50,6 +56,20 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+    }
+
+    private fun findUserByEmail() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val response = userService.findUserByEmail("6090acc6d980b010af3e278e")
+//            val response = userService.getUsersList()
+            if (response.isSuccessful) {
+                val userDto = response.body()!!
+                Log.d("Developer", "userDto $userDto")
+            } else {
+                Log.d("Error", "tengo un error ${response.errorBody()}")
+                response.errorBody()
+            }
         }
     }
 

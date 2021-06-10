@@ -3,6 +3,7 @@ package com.example.taskplanner.ui.main
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.taskplanner.storage.Storage
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +21,7 @@ class LauncherActivity: AppCompatActivity() {
             startMainActivity()
         } else {
             startLoginActivity()
+            Log.d("Error", "user not found in db")
         }
         finish()
     }

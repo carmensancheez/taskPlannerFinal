@@ -1,9 +1,11 @@
 package com.example.taskplanner.di
 
 import com.example.taskplanner.BuildConfig
+import com.example.taskplanner.network.AuthInterceptor
 import com.example.taskplanner.network.service.AuthService
 import com.example.taskplanner.network.service.TaskService
 import com.example.taskplanner.network.service.UserService
+import com.example.taskplanner.storage.Storage
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -21,7 +23,7 @@ import javax.inject.Singleton
 object APIServiceModule {
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
+    fun provideRetrofit(storage: Storage): Retrofit {
         val builder = Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -32,6 +34,7 @@ object APIServiceModule {
 
         val okHttpClient = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor(AuthInterceptor(storage))
             .writeTimeout(0, TimeUnit.MILLISECONDS)
             .readTimeout(2, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES).build()
