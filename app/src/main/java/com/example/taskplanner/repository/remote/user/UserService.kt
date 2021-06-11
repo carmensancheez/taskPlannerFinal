@@ -13,7 +13,7 @@ interface UserService {
     suspend fun getUsersList(): Response<List<UserDto>>
 
     @GET("users/{id}")
-    suspend fun findUserByEmail(@Path("id") id: String): Response<UserDto>
+    suspend fun findUserById(@Path("id") id: String): Response<UserDto>
 
     @PUT("users/{id}")
     suspend fun updateUser(@Path("id")id: String): Response<UserDto>

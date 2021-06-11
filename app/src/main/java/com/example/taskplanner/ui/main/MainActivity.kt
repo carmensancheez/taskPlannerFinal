@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findUserByEmail()
+        findUserById()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun findUserByEmail() {
+    private fun findUserById() {
         GlobalScope.launch(Dispatchers.IO) {
-            val response = userService.findUserByEmail("6090acc6d980b010af3e278e")
+            val response = userService.findUserById("6090acc6d980b010af3e278e")
 //            val response = userService.getUsersList()
             if (response.isSuccessful) {
                 val userDto = response.body()!!
