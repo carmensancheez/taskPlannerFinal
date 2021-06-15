@@ -7,14 +7,14 @@ import java.util.*
 
 @Entity
 data class Task(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    @PrimaryKey()
+    val id: String,
     val description: String,
     val personResponsible:String,
     val dueDate: Date,
     val status: String,
     val userId: String
 ) {
-    constructor(taskDto: TaskDto) : this(0, taskDto.description, taskDto.personResponsible,
+    constructor(taskDto: TaskDto) : this(taskDto.id, taskDto.description, taskDto.personResponsible,
         taskDto.dueDate, taskDto.status, taskDto.userId )
 }

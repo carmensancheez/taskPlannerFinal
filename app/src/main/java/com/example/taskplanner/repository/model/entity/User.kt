@@ -6,9 +6,8 @@ import com.example.taskplanner.repository.remote.dto.UserDto
 
 @Entity
 data class User(
-    @PrimaryKey(autoGenerate = true)
-    val uid: Int,
-    var id: String?,
+    @PrimaryKey()
+    var id: String,
     val name:String,
 //    val passwordHash:String,
     val email:String,
@@ -16,13 +15,13 @@ data class User(
     val roles: List<String>
     ) {
 
-    constructor(userDto: UserDto) : this(0, userDto.id, userDto.name,
+    constructor(userDto: UserDto) : this(userDto.id, userDto.name,
 //        userDto.passwordHash,
         userDto.email, userDto.profilePictureUrl, userDto.roles)
 
 //    fun isUploadServer() = return  id != null
 
-    fun isUploadServer2(): Boolean {
+    fun isUploadServer(): Boolean {
         if (id != null) return true
         return false
     }

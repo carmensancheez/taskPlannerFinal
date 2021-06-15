@@ -1,6 +1,7 @@
 package com.example.taskplanner.repository.model.converters
 
 import androidx.room.TypeConverter
+import com.example.taskplanner.repository.model.entity.Task
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -27,5 +28,10 @@ class Converters {
     fun fromArrayList(roles: List<String?>?): String? {
         val gson = Gson()
         return gson.toJson(roles)
+    }
+
+    @TypeConverter
+    fun taskListToString(taskList: List<Task>?): String? {
+        return  Gson().toJson(taskList)
     }
 }

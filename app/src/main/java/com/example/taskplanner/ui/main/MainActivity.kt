@@ -2,46 +2,58 @@ package com.example.taskplanner.ui.main
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.ActivityMainBinding
-import com.example.taskplanner.repository.remote.auth.AuthService
-import com.example.taskplanner.repository.remote.task.TaskService
-import com.example.taskplanner.repository.remote.user.UserService
+import com.example.taskplanner.repository.model.entity.Task
+import com.example.taskplanner.ui.activity.AddTaskFragment
+import com.example.taskplanner.ui.adapter.TaskAdapter
+import com.example.taskplanner.ui.adapter.TaskAdapterListener
+import com.example.taskplanner.viewmodel.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import kotlinx.android.synthetic.main.fragment_first.*
+
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), TaskAdapterListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var taskService: TaskService
+    private val viewModel by viewModels<MainActivityViewModel>()
 
-    @Inject
-    lateinit var userService: UserService
+    private val taskAdapter = TaskAdapter(this)
 
-    @Inject
-    lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        findUserById()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.successLiveData.observe(this, {
+            updateUserInfo()
+        })
+        viewModel.findUserById()
+
+        configureRecyclerView()
+
+        viewModel.syncTaskData()
+
+//        viewModel.errorMessageLiveData.observe(this, {
+//            Snackbar.make(this@MainActivity, binding.recyclerView, it, Snackbar.LENGTH_LONG).show()
+//        })
+
 
         setSupportActionBar(binding.toolbar)
 
@@ -49,25 +61,33 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        binding.addTask.setOnClickListener {
+            navController.navigate(R.id.addTaskFragment)
+//            findNavController().navigate(R.id.action_FirstFragment_to_addTaskFragment)
+
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show()
+
         }
     }
 
-    private fun findUserById() {
-        GlobalScope.launch(Dispatchers.IO) {
-            val response = userService.findUserById("6090acc6d980b010af3e278e")
-//            val response = userService.getUsersList()
-            if (response.isSuccessful) {
-                val userDto = response.body()!!
-                Log.d("Developer", "userDto $userDto")
-            } else {
-                Log.d("Error", "tengo un error ${response.errorBody()}")
-                response.errorBody()
-            }
-        }
+    private fun configureRecyclerView() {
+        val linearLayoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = linearLayoutManager
+        binding.recyclerView.adapter = taskAdapter
+
+        viewModel.taskListLiveData.observe(this, {
+            taskAdapter.updateTaskList(it)
+        })
     }
+
+
+    private fun updateUserInfo() {
+        if (viewModel.user != null)
+//            userName.text = viewModel.user?.name
+        Log.d("Developer", "${viewModel.user?.name}")
+    }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -89,5 +109,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
+    }
+
+    override fun onClicked(task: Task) {
+        TODO("Not yet implemented")
     }
 }

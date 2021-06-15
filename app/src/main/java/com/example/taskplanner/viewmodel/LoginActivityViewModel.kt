@@ -18,12 +18,13 @@ class LoginActivityViewModel @Inject constructor(private val authService: AuthSe
 
     val successLiveData = MutableLiveData<Boolean>()
 
-    fun auth() {
+    fun auth(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = authService.auth(LoginDto("davidcab11@gmail.com", "passw0rd"))
+            val response = authService.auth(LoginDto(email, password))
             if (response.isSuccessful) {
                 val tokenDto = response.body()!!
                 Log.d("Developer", "tokenDto:  $tokenDto")
+//                startActivity(Intent(application, SecondFragment()))
                 storage.saveToken(tokenDto.token)
                 successLiveData.postValue(true)
             } else {

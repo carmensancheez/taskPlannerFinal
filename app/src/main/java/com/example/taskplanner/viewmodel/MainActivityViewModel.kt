@@ -1,12 +1,13 @@
 package com.example.taskplanner.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import androidx.room.TypeConverters
+import com.example.taskplanner.repository.TaskRepository
 import com.example.taskplanner.repository.UserRepository
+import com.example.taskplanner.repository.model.entity.Task
 import com.example.taskplanner.repository.model.entity.User
+import com.example.taskplanner.repository.remote.dto.TaskDto
 import com.example.taskplanner.storage.Storage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
 //    private val savedStateHandle: SavedStateHandle,
     private val repository: UserRepository,
+    private val taskRepository: TaskRepository,
     private val storage: Storage
 ) : ViewModel() {
 
@@ -24,6 +26,21 @@ class MainActivityViewModel @Inject constructor(
 
     val successLiveData = MutableLiveData<Boolean>()
 
+    val taskListLiveData: LiveData<List<Task>> = taskRepository.taskDao.all()
+
+    val errorMessageLiveData = MutableLiveData<String>()
+
+    fun syncTaskData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                taskRepository.syncData()
+            } catch (e: Exception) {
+                Log.e("Developer", "Error on syncData", e)
+                errorMessageLiveData.postValue("No Internet Connection")
+            }
+
+        }
+    }
 
     fun findUserById() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,4 +63,19 @@ class MainActivityViewModel @Inject constructor(
             }
         }
     }
+
+//    fun syncTaskData() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val response = taskRepository.taskService.getTasksList()
+//            if(response.isSuccessful) {
+//                val tasks: List<TaskDto> = response.body()!!
+//                Log.d("Developer", "$tasks, entre")
+//                successLiveData2.postValue(true)
+//                this@MainActivityViewModel.taskList = tasks
+//            } else {
+//                Log.d("Developer", "falle")
+//
+//            }
+//        }
+//    }
 }
